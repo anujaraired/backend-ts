@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 /* ===============================
    Section / Body Data Interface
 ================================ */
-export interface IBodyData {
+export interface ICaseStudyData {
   heading?: string;
   description?: string;
   image?: string | null;
@@ -22,16 +22,16 @@ export interface ISeo {
 }
 
 /* ===============================
-   Blog Interface
+   Case Study Interface
 ================================ */
-export interface IBlog extends Document {
+export interface ICaseStudy extends Document {
   title: string;
   category?: string;
   slug?: string;
   description?: string; // short description
   image?: string | null; // main image
   status?: string;
-  bodyData: IBodyData[];
+  bodyData: ICaseStudyData[];
   seo?: ISeo;
 
   userId?: Types.ObjectId;
@@ -40,7 +40,7 @@ export interface IBlog extends Document {
 /* ===============================
    BodyData Schema
 ================================ */
-const BodyDataSchema = new Schema<IBodyData>(
+const BodyDataSchema = new Schema<ICaseStudyData>(
   {
     heading: { type: String },
     description: { type: String },
@@ -65,9 +65,9 @@ const SeoSchema = new Schema<ISeo>(
 );
 
 /* ===============================
-   Blog Schema
+   Case Study Schema
 ================================ */
-const BlogSchema = new Schema<IBlog>(
+const CaseStudySchema = new Schema<ICaseStudy>(
   {
     title: { type: String, required: true, unique: true },
 
@@ -100,4 +100,4 @@ const BlogSchema = new Schema<IBlog>(
   { timestamps: true },
 );
 
-export default mongoose.model<IBlog>("Blog", BlogSchema);
+export default mongoose.model<ICaseStudy>("CaseStudy", CaseStudySchema);

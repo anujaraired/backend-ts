@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Blog from "../models/case-study.model";
+import CaseStudy from "../models/case-study.model";
 
 /* -------- Request Body Type -------- */
 interface RawSection {
@@ -20,7 +20,7 @@ interface RawBodyData {
 }
 
 /* ===============================
-   Create Blog Controller
+   Create CaseStudy Controller
 ================================ */
 export const createCaseStudy = async (req: Request, res: Response) => {
   try {
@@ -49,11 +49,11 @@ export const createCaseStudy = async (req: Request, res: Response) => {
     }
 
     /* ---------- Check duplicate title ---------- */
-    const exists = await Blog.findOne({ title });
+    const exists = await CaseStudy.findOne({ title });
     if (exists) {
       return res.status(409).json({
         status: "error",
-        message: "Blog already exists",
+        message: "CaseStudy already exists",
       });
     }
 
@@ -85,8 +85,8 @@ export const createCaseStudy = async (req: Request, res: Response) => {
       };
     });
 
-    /* ---------- Create Blog ---------- */
-    const blog = await Blog.create({
+    /* ---------- Create CaseStudy ---------- */
+    const caseStudy = await CaseStudy.create({
       title,
       category,
       slug,
@@ -100,8 +100,8 @@ export const createCaseStudy = async (req: Request, res: Response) => {
 
     return res.status(201).json({
       status: "success",
-      message: "Blog created successfully",
-      data: blog,
+      message: "CaseStudy created successfully",
+      data: caseStudy,
     });
   } catch (error: any) {
     return res.status(500).json({
@@ -113,12 +113,14 @@ export const createCaseStudy = async (req: Request, res: Response) => {
 
 export const getAllCaseStudies = async (_req: Request, res: Response) => {
   try {
-    const blogs = await Blog.find().sort({ createdAt: -1 }).select("-__v");
+    const caseStudies = await CaseStudy.find()
+      .sort({ createdAt: -1 })
+      .select("-__v");
 
     return res.status(200).json({
       status: "success",
-      count: blogs.length,
-      data: blogs,
+      count: caseStudies.length,
+      data: caseStudies,
     });
   } catch (error: any) {
     return res.status(500).json({
@@ -132,18 +134,18 @@ export const getSingleCaseStudy = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const blog = await Blog.findById(id);
+    const caseStudy = await CaseStudy.findById(id);
 
-    if (!blog) {
+    if (!caseStudy) {
       return res.status(404).json({
         status: "error",
-        message: "Blog not found",
+        message: "CaseStudy not found",
       });
     }
 
     return res.status(200).json({
       status: "success",
-      data: blog,
+      data: caseStudy,
     });
   } catch (error: any) {
     return res.status(500).json({
@@ -166,12 +168,12 @@ export const updateCaseStudy = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { title, description, bodyData } = req.body;
 
-    /* -------- Find Blog -------- */
-    const blog = await Blog.findById(id);
-    if (!blog) {
+    /* -------- Find CaseStudy -------- */
+    const caseStudy = await CaseStudy.findById(id);
+    if (!caseStudy) {
       return res.status(404).json({
         status: "error",
-        message: "Blog not found",
+        message: "CaseStudy not found",
       });
     }
 
@@ -197,20 +199,20 @@ export const updateCaseStudy = async (req: Request, res: Response) => {
 
     /* -------- Update main image (optional) -------- */
     if (files?.image?.[0]) {
-      blog.image = files.image[0].path;
+      caseStudy.image = files.image[0].path;
     }
 
     /* -------- Update basic fields -------- */
-    if (title) blog.title = title;
-    if (description) blog.description = description;
+    if (title) caseStudy.title = title;
+    if (description) caseStudy.description = description;
 
     /* -------- Update bodyData (optional) -------- */
     if (parsedBodyData) {
       const sectionImages = files?.sectionImages || [];
       let imgIndex = 0;
 
-      blog.bodyData = parsedBodyData.map((item, index) => {
-        let image = blog.bodyData[index]?.image || null;
+      caseStudy.bodyData = parsedBodyData.map((item, index) => {
+        let image = caseStudy.bodyData[index]?.image || null;
 
         if (item.hasImage && sectionImages[imgIndex]) {
           image = sectionImages[imgIndex].path;
@@ -227,12 +229,12 @@ export const updateCaseStudy = async (req: Request, res: Response) => {
     }
 
     /* -------- Save -------- */
-    await blog.save();
+    await caseStudy.save();
 
     return res.status(200).json({
       status: "success",
-      message: "Blog updated successfully",
-      data: blog,
+      message: "CaseStudy updated successfully",
+      data: caseStudy,
     });
   } catch (error: any) {
     return res.status(500).json({
@@ -246,18 +248,18 @@ export const deleteCaseStudy = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const blog = await Blog.findByIdAndDelete(id);
+    const caseStudy = await CaseStudy.findByIdAndDelete(id);
 
-    if (!blog) {
+    if (!caseStudy) {
       return res.status(404).json({
         status: "error",
-        message: "Blog not found",
+        message: "CaseStudy not found",
       });
     }
 
     return res.status(200).json({
       status: "success",
-      message: "Blog deleted successfully",
+      message: "CaseStudy deleted successfully",
     });
   } catch (error: any) {
     return res.status(500).json({
