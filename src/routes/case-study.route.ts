@@ -21,9 +21,11 @@ router.post(
 );
 router.get("/", getAllCaseStudies);
 
-/* ---------------- GET SINGLE BLOG ---------------- */
-router.get("/:id", getSingleCaseStudy);
-router.get("/:slug", getSingleCaseStudyBySlug);
+// ✅ single by ID
+router.get("/id/:id", getSingleCaseStudy);
+
+// ✅ single by SLUG
+router.get("/slug/:slug", getSingleCaseStudyBySlug);
 
 /* ---------------- UPDATE BLOG ---------------- */
 router.put(

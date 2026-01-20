@@ -167,6 +167,7 @@ export const getSingleCaseStudy = async (req: Request, res: Response) => {
 export const getSingleCaseStudyBySlug = async (req: Request, res: Response) => {
   try {
     const { slug } = req.params;
+    console.log(slug,"slug>>>DAIN")
 
     const caseStudy = await CaseStudy.findOne({ slug });
 
