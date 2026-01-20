@@ -24,8 +24,16 @@ interface RawBodyData {
 ================================ */
 export const createCaseStudy = async (req: Request, res: Response) => {
   try {
-    const { title, category, slug, description, bodyData, seo, status } =
-      req.body;
+    const {
+      title,
+      category,
+      slug,
+      description,
+      projectDescription,
+      bodyData,
+      seo,
+      status,
+    } = req.body;
 
     if (!title) {
       return res.status(400).json({
@@ -91,6 +99,7 @@ export const createCaseStudy = async (req: Request, res: Response) => {
       category,
       slug,
       description,
+      projectDescription,
       image: blogImage,
       status,
       bodyData: updatedBodyData,

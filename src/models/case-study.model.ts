@@ -29,6 +29,7 @@ export interface ICaseStudy extends Document {
   category?: string;
   slug?: string;
   description?: string; // short description
+  projectDescription?: string;
   image?: string | null; // main image
   status?: string;
   bodyData: ICaseStudyData[];
@@ -75,6 +76,7 @@ const CaseStudySchema = new Schema<ICaseStudy>(
     slug: { type: String, index: true },
 
     description: { type: String }, // short summary
+    projectDescription: { type: String },
     image: { type: String, default: null }, // main image
 
     status: {
