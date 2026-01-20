@@ -5,6 +5,7 @@ import {
   deleteCaseStudy,
   getAllCaseStudies,
   getSingleCaseStudy,
+  getSingleCaseStudyBySlug,
   updateCaseStudy,
 } from "../controllers/case-study.controller";
 
@@ -22,6 +23,7 @@ router.get("/", getAllCaseStudies);
 
 /* ---------------- GET SINGLE BLOG ---------------- */
 router.get("/:id", getSingleCaseStudy);
+router.get("/:slug", getSingleCaseStudyBySlug);
 
 /* ---------------- UPDATE BLOG ---------------- */
 router.put(

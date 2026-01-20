@@ -164,6 +164,31 @@ export const getSingleCaseStudy = async (req: Request, res: Response) => {
   }
 };
 
+export const getSingleCaseStudyBySlug = async (req: Request, res: Response) => {
+  try {
+    const { slug } = req.params;
+
+    const caseStudy = await CaseStudy.findOne({ slug });
+
+    if (!caseStudy) {
+      return res.status(404).json({
+        status: "error",
+        message: "CaseStudy not found",
+      });
+    }
+
+    return res.status(200).json({
+      status: "success",
+      data: caseStudy,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
 /* -------- Raw bodyData coming from frontend -------- */
 interface RawBodyData {
   heading?: string;
